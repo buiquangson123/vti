@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  overflow-y: hidden;
+  box-sizing: border-box;
 }
 
 .App-logo {
@@ -35,4 +36,65 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header-page {
+}
+
+.header-url {
+  list-style: none;
+}
+
+.header-url li {
+  margin-right: 5px;
+}
+
+/* li span {
+  margin-left: 5px;
+} */
+
+.body-page {
+  width: calc(100%-240px);
+}
+
+.table {
+  overflow-y: hidden;
+}
+
+.icon-nav {
+  width: 30px;
+}
+
+.list-item {
+  padding: 10px 0;
+}
+
+.item:hover .fa-solid {
+  color: white;
+}
+
+.item-children {
+  display: none;
+}
+
+.item-children.active {
+  display: block;
+}
+
+#table-list tr:nth-child(even) {
+  background-color: white;
+}
+
+/* #table-list tr:hover {
+  background-color: rgb(190, 155, 155);
+} */
+
+#table-list thead tr,
+tbody tr td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+}
+
+thead tr th {
+  padding: 4px 0;
 }
