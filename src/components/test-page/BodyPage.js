@@ -1,9 +1,12 @@
 import React from "react";
 import FormPage from "./FormPage";
 
-const BodyPage = () => {
+const BodyPage = (props) => {
+  const { isTranslate } = props;
   return (
-    <div className="body-page ml-[240px] flex-1">
+    <div
+      className={`body-page ${isTranslate ? "ml-[240px]" : "ml-[40px]"} flex-1`}
+    >
       <div className="m-[20px]">
         <div className="header-page">
           <div className="header-url flex">

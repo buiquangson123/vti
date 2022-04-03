@@ -98,3 +98,22 @@ tbody tr td {
 thead tr th {
   padding: 4px 0;
 }
+
+.item-min:hover .item-children-min {
+  display: block;
+}
+
+.item-children-min::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 0%;
+  width: 10px;
+  height: 58px;
+  background-color: white;
+  display: block;
+}
+
+.list-item-min {
+  padding: 0;
+}

@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import CalenderPick from "./CalenderPick";
 import Overlay from "./Overlay";
 
+// ?date_gte=2022-03-01&date_lte=2022-03-30
+
 const FormPage = () => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,6 +21,7 @@ const FormPage = () => {
     const res = await api
       .get("?_page=1&_limit=3")
       .catch((error) => console.log(error));
+
     setUser(res.data);
     setLoading(false);
     setTotalItem(resFull.data.length);
@@ -30,18 +33,18 @@ const FormPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      nameSearch: "",
       name: "",
+      category: "",
     },
     onSubmit: async (values) => {
       setLoading(true);
-      if (values.name === "" && values.nameSearch === "") {
+      if (values.name === "" && values.category === "All") {
         const res = await api.get("/").catch((error) => console.log(error));
         setUser(res.data);
         setLoading(false);
       } else {
         const response = await api
-          .get(`/?username=${values.nameSearch}&name=${values.name}`)
+          .get(`/?name_like=${values.name}&category=${values.category}`)
           .catch((error) => console.log("Lỗi get api: ", error));
 
         console.log(response.data);
@@ -74,18 +77,15 @@ const FormPage = () => {
                       <select
                         id=""
                         className="focus:outline-none w-[260px] border border-gray-400 rounded-[3px] pl-2"
-                        {...formik.getFieldProps("name")}
+                        {...formik.getFieldProps("category")}
                       >
-                        <option value="">All</option>
-                        <option value="Leanne Graham">
-                          Leanne Graham-Bret
+                        <option value="All">Tất cả</option>
+                        <option value="Thời trang nam">Thời trang nam</option>
+                        <option value="Đồng hồ">Đồng hồ</option>
+                        <option value="Thời trang và du lịch">
+                          Thời trang và du lịch
                         </option>
-                        <option value="Ervin Howell">
-                          Ervin Howell-Antonette
-                        </option>
-                        <option value="Clementine Bauch">
-                          Clementine Bauch-Samantha
-                        </option>
+                        <option value="Sắc đẹp">Sắc đẹp</option>
                       </select>
                     </div>
                   </div>
@@ -94,8 +94,8 @@ const FormPage = () => {
                     <input
                       type="text"
                       className="flex-1 rounded-[3px] border border-gray-400 mr-6 focus:border-blue-400 focus:outline-none pl-[8px] py-1"
-                      {...formik.getFieldProps("nameSearch")}
-                      autocomplete="off"
+                      {...formik.getFieldProps("name")}
+                      autoComplete="off"
                     />
                   </div>
                   <div className="text-xs">
@@ -115,7 +115,7 @@ const FormPage = () => {
 
           <div className="ml-3" onClick={() => setShow(true)}>
             <div className="border border-blue-600 w-[50px] h-[50px] rounded cursor-pointer hover:bg-[#0D66D0] hover:text-white">
-              <i class="fa-solid fa-arrow-down text-3xl text-center block leading-[50px] text-[#0D66D0] hover:text-white"></i>
+              <i className="fa-solid fa-arrow-down text-3xl text-center block leading-[50px] text-[#0D66D0] hover:text-white"></i>
             </div>
           </div>
         </div>

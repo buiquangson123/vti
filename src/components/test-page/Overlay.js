@@ -29,7 +29,7 @@ const Overlay = ({ show, setShow }) => {
             className="absolute top-0 right-0 text-[24px] mr-[10px] mt-[4px] cursor-pointer"
             onClick={() => setShow(false)}
           >
-            <i class="fa-solid fa-xmark"></i>
+            <i className="fa-solid fa-xmark"></i>
           </div>
           <div className="pt-20 flex justify-center">
             <span className="text-black text-[20px] font-semibold">

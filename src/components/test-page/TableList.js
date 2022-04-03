@@ -31,7 +31,7 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
           onClick={() => setPage(page - 1)}
           disabled={page === 1 ? true : false}
         >
-          <i class="fa-solid fa-angle-left"></i>
+          <i className="fa-solid fa-angle-left"></i>
         </button>
         <span className="flex flex-col justify-center mx-2">{page}</span>
         <button
@@ -39,7 +39,7 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
           onClick={() => setPage(page + 1)}
           disabled={page === Math.floor(totalItem / 3 + 1) ? true : false}
         >
-          <i class="fa-solid fa-angle-right"></i>
+          <i className="fa-solid fa-angle-right"></i>
         </button>
         <div className="flex">
           <p className="mr-2 leading-8 text-xs text-[14px]">表示件数</p>
@@ -47,64 +47,46 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
             id=""
             className="focus:outline-none w-[80px] border border-gray-400 rounded-[3px] pl-1"
           >
-            <option value="10">10件</option>
-            <option value="20">20件</option>
-            <option value="30">30件</option>
-            <option value="40">40件</option>
+            <option value="3">3件</option>
+            <option value="5">5件</option>
+            <option value="7">7件</option>
           </select>
         </div>
       </div>
-      <div className="flex bg-[#F2F3F5] rounded-md ">
-        <table id="table-list">
-          <thead>
-            <tr className="border-r-[1px] border-[#ddd] py-1">
-              <th>ID</th>
-              <th>Name</th>
-            </tr>
-          </thead>
 
-          <tbody className="border-r-[1px] border-[#ddd] py-1">
-            {loading && <div>Loading ....</div>}
-            {!loading &&
-              user &&
-              user.length > 0 &&
-              user.map((item, index) => (
-                <tr key={index} style={{ textAlign: "center" }}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+      <table id="table-list" className="flex-1 overflow-auto">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price(VNĐ)</th>
+            <th>Title</th>
+            <th>Rating</th>
+            <th>Cate</th>
+            <th>Date</th>
+          </tr>
+        </thead>
 
-        <table id="table-list" className="flex-1 overflow-auto">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Telephone</th>
-              <th>Web</th>
-              <th>Email</th>
-              <th>Telephone</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {loading && <div>Loading ....</div>}
-            {!loading &&
-              user &&
-              user.length > 0 &&
-              user.map((item, index) => (
-                <tr key={index} style={{ textAlign: "center" }}>
-                  <td>{item.email}</td>
-                  <td>{item.phone}</td>
-                  <td>{item.website}</td>
-                  <td>{item.email}</td>
-                  <td>{item.phone}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+        <tbody>
+          {/* {loading && <div>Loading ....</div>} */}
+          {!loading &&
+            user &&
+            user.length > 0 &&
+            user.map((item, index) => (
+              <tr key={index} style={{ textAlign: "center" }}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.description}</td>
+                <td>{item.price}</td>
+                <td>{item.title}</td>
+                <td>{item.category}</td>
+                <td>{item.rating.rate}</td>
+                <td>{item.date}</td>
+              </tr>
+            ))}
+        </tbody>
+      </table>
     </div>
   );
 };
