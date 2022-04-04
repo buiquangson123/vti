@@ -7,7 +7,7 @@ function App() {
   const [isTranslate, setIsTranslate] = useState(true);
   return (
     <Fragment>
-      <div className="App flex min-w-full min-h-full">
+      <div className="App flex">
         <NavPage
           isTranslate={isTranslate}
           setIsTranslate={setIsTranslate}

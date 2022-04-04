@@ -1,24 +1,25 @@
 import {} from "formik";
-import { useEffect, useState } from "react";
-import { api } from "../api/api";
+import { useEffect } from "react";
 
-const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
-  const [page, setPage] = useState(1);
-
-  const handlePage = async (page) => {
-    const res = await api
-      .get(`?_page=${page}&_limit=3`)
-      .catch((error) => console.log("Lỗi api: ", error));
-
-    setUser(res.data);
-    setLoading(false);
+const TableList = ({
+  user,
+  loading,
+  setUser,
+  totalItem,
+  page,
+  setPage,
+  listSearch,
+  limit,
+  setLimit,
+}) => {
+  const handle = async (page, limit) => {
+    const arrNew = await listSearch.slice(limit * page - limit, limit * page);
+    setUser(arrNew);
   };
 
   useEffect(() => {
-    handlePage(page);
-  }, [page]);
-
-  console.log(">>check page: ", page);
+    handle(page, limit);
+  }, [page, limit]);
 
   return (
     <div>
@@ -31,21 +32,38 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
           onClick={() => setPage(page - 1)}
           disabled={page === 1 ? true : false}
         >
-          <i className="fa-solid fa-angle-left"></i>
+          <div
+            className={`fa-solid fa-angle-left ${
+              page === 1 ? "" : "text-black"
+            }`}
+          ></div>
         </button>
         <span className="flex flex-col justify-center mx-2">{page}</span>
         <button
           className="flex flex-col justify-center mx-2 cursor-pointer text-gray-400"
           onClick={() => setPage(page + 1)}
-          disabled={page === Math.floor(totalItem / 3 + 1) ? true : false}
+          disabled={
+            page === totalItem / limit ||
+            page === Math.floor(totalItem / limit + 1)
+              ? true
+              : false
+          }
         >
-          <i className="fa-solid fa-angle-right"></i>
+          <i
+            className={`fa-solid fa-angle-right ${
+              page === totalItem / limit ||
+              page === Math.floor(totalItem / limit + 1)
+                ? ""
+                : "text-black"
+            }`}
+          ></i>
         </button>
         <div className="flex">
           <p className="mr-2 leading-8 text-xs text-[14px]">表示件数</p>
           <select
             id=""
             className="focus:outline-none w-[80px] border border-gray-400 rounded-[3px] pl-1"
+            onChange={(e) => setLimit(e.target.value)}
           >
             <option value="3">3件</option>
             <option value="5">5件</option>
@@ -54,10 +72,9 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
         </div>
       </div>
 
-      <table id="table-list" className="flex-1 overflow-auto">
+      <table id="table-list" className="flex-1 overflow-auto bg-white rounded">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price(VNĐ)</th>
@@ -69,22 +86,29 @@ const TableList = ({ user, loading, setUser, setLoading, totalItem }) => {
         </thead>
 
         <tbody>
-          {/* {loading && <div>Loading ....</div>} */}
-          {!loading &&
-            user &&
-            user.length > 0 &&
-            user.map((item, index) => (
-              <tr key={index} style={{ textAlign: "center" }}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.description}</td>
-                <td>{item.price}</td>
-                <td>{item.title}</td>
-                <td>{item.category}</td>
-                <td>{item.rating.rate}</td>
-                <td>{item.date}</td>
+          <>
+            {user.length === 0 && (
+              <tr>
+                <td colSpan="7" className="no-data m-auto text-center">
+                  No data
+                </td>
               </tr>
-            ))}
+            )}
+            {!loading &&
+              user &&
+              user.length > 0 &&
+              user.map((item, index) => (
+                <tr key={index} style={{ textAlign: "center" }}>
+                  <td>{item.name}</td>
+                  <td>{item.description}</td>
+                  <td>{item.price}</td>
+                  <td>{item.title}</td>
+                  <td>{item.category}</td>
+                  <td>{item.rating.rate}</td>
+                  <td>{item.date}</td>
+                </tr>
+              ))}
+          </>
         </tbody>
       </table>
     </div>

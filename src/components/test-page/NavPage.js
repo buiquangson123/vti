@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { listItemNav } from "./ListItemNav";
 
 const NavPage = (props) => {
   const { isTranslate, setIsTranslate } = props;
@@ -6,38 +7,16 @@ const NavPage = (props) => {
     const parent = e.target.closest(".item");
     if (parent.querySelector(".item-children").classList.contains("active")) {
       parent.querySelector(".item-children").classList.remove("active");
+      parent.querySelector(".icon-up-down").classList.add("fa-angle-down");
+      parent.querySelector(".icon-up-down").classList.remove("fa-angle-up");
     } else {
       parent.querySelector(".item-children").classList.add("active");
+      parent.querySelector(".icon-up-down").classList.add("fa-angle-up");
+      parent.querySelector(".icon-up-down").classList.remove("fa-angle-down");
     }
   };
 
-  const iconNav = [
-    "fa-solid fa-house",
-    "fa-solid fa-thumbtack",
-    "fa-solid fa-gear",
-    "fa-solid fa-book",
-    "fa-solid fa-note",
-    "fa-solid fa-filter",
-    "fa-solid fa-grid",
-  ];
-
-  const itemChildren = [
-    {
-      cld1: "受付文",
-      cld2: "書一覧",
-    },
-    { cld1: "受付文", cld2: "書一覧", cld3: "付文書一覧" },
-    {},
-    {
-      cld1: "受付文",
-      cld2: "書一覧付文",
-      cld3: "付文書一覧",
-      cld4: "付文書一覧",
-    },
-    {},
-    { cld1: "受付文", cld2: "書付文書一覧", cld3: "付文書一覧" },
-    { cld1: "受付文書", cld2: "書一覧", cld3: "付文書一覧" },
-  ];
+  console.log(">>>itemNav: ", listItemNav);
   return (
     <Fragment>
       {/* Nav-max */}
@@ -56,83 +35,40 @@ const NavPage = (props) => {
         </div>
 
         <ul className="list-item">
-          <li className="item" onClick={(e) => handleDisplayChildren(e)}>
-            <div className="item-icon flex hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav">
-                <i className="fa-solid fa-house text-center text-blue-600 "></i>
-              </div>
-              <div className="text-nav flex flex-1 justify-between">
-                <div>ホーム</div>
-                <div>
-                  <i className="fa-solid fa-angle-down"></i>
-                </div>
-              </div>
-            </div>
-
-            <ul className="item-children ">
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">受付文書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
-
-          <li className="item" onClick={(e) => handleDisplayChildren(e)}>
-            <div className="item-icon flex hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav">
-                <i className="fa-solid fa-house text-center text-blue-600 "></i>
-              </div>
-              <div className="flex flex-1 justify-between">
-                <div>ホーム</div>
-                <div>
-                  <i className="fa-solid fa-angle-down"></i>
-                </div>
-              </div>
-            </div>
-
-            <ul className="item-children ">
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">受付文書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
-
-          <li className="item" onClick={(e) => handleDisplayChildren(e)}>
-            <div className="item-icon flex hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav">
-                <i className="fa-solid fa-house text-center text-blue-600 "></i>
-              </div>
-              <div className="flex flex-1 justify-between">
-                <div>ホーム</div>
-                <div>
-                  <i className="fa-solid fa-angle-down"></i>
-                </div>
-              </div>
-            </div>
-
-            <ul className="item-children ">
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">受付文書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">書一覧</span>
-              </li>
-              <li className="flex hover:bg-blue-500 cursor-pointer ">
-                <span className="py-[4px] pl-[40px]">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
+          {listItemNav.length > 0 &&
+            listItemNav.map((item, index) => (
+              <Fragment key={index}>
+                <li className="item" onClick={(e) => handleDisplayChildren(e)}>
+                  <div className="item-icon flex hover:bg-blue-500 p-3 cursor-pointer">
+                    <div className="icon-nav">
+                      <i
+                        className={`fa-solid ${item.iconNav} text-center text-blue-600`}
+                      ></i>
+                    </div>
+                    <div className="flex flex-1 justify-between">
+                      <div>{item.title}</div>
+                      {item.itemChildren.length > 0 && (
+                        <div>
+                          <i className="icon-up-down fa-solid fa-angle-down"></i>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {item.itemChildren.length > 0 && (
+                    <ul className="item-children ">
+                      {item.itemChildren.map((itemChi, indexChi) => (
+                        <li
+                          key={indexChi}
+                          className="flex hover:bg-blue-500 cursor-pointer "
+                        >
+                          <span className="py-[4px] pl-[40px]">{itemChi}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              </Fragment>
+            ))}
         </ul>
       </div>
 
@@ -148,74 +84,34 @@ const NavPage = (props) => {
           </button>
         </div>
 
-        <ul className="list-item list-item-min">
-          <li className="item item-min relative">
-            <div className="item-icon flex justify-center hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav text-center">
-                <i className="fa-solid fa-house text-center text-blue-600 "></i>
-              </div>
-            </div>
+        {listItemNav.length > 0 &&
+          listItemNav.map((item, index) => (
+            <Fragment key={index}>
+              <ul className="list-item list-item-min">
+                <li className="item item-min relative">
+                  <div className="item-icon flex justify-center hover:bg-blue-500 p-3 cursor-pointer">
+                    <div className="icon-nav text-center">
+                      <i
+                        className={`fa-solid ${item.iconNav} text-center text-blue-600`}
+                      ></i>
+                    </div>
+                  </div>
 
-            <ul className="item-children-min absolute hidden bg-[#F2F3F5] rounded-[3px] border shadow-md top-[-20%] right-[-355%] w-40 h-48 z-1 text-[#1F334D]">
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] rounded-tr-[3px] rounded-tl-[3px]">
-                <span className="">受付文書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <ul className="list-item list-item-min">
-          <li className="item item-min relative">
-            <div className="item-icon flex justify-center hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav text-center">
-                <i className="fa-solid fa-gear text-center text-blue-600"></i>
-              </div>
-            </div>
-
-            <ul className="item-children-min absolute hidden bg-[#F2F3F5] rounded-[3px] border shadow-md top-[-20%] right-[-355%] w-40 h-48 z-1 text-[#1F334D]">
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] rounded-tr-[3px] rounded-tl-[3px]">
-                <span className="">受付文書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">付文書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <ul className="list-item list-item-min">
-          <li className="item item-min relative">
-            <div className="item-icon flex justify-center hover:bg-blue-500 p-3 cursor-pointer">
-              <div className="icon-nav text-center">
-                <i className="fa-solid fa-thumbtack text-center text-blue-600"></i>
-              </div>
-            </div>
-
-            <ul className="item-children-min absolute hidden bg-[#F2F3F5] rounded-[3px] border shadow-md top-[-20%] right-[-355%] w-40 h-48 z-1 text-[#1F334D]">
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] rounded-tr-[3px] rounded-tl-[3px]">
-                <span className="">受付文書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">書一覧</span>
-              </li>
-              <li className="hover:bg-blue-500 cursor-pointer py-[6px] pl-[10px] ">
-                <span className="">付文書一覧</span>
-              </li>
-            </ul>
-          </li>
-        </ul>
+                  {item.itemChildren.length > 0 && (
+                    <ul className="item-children-min absolute hidden bg-[#F2F3F5] rounded-[3px] border shadow-md top-[-20%] right-[-355%] w-40  z-1 text-[#1F334D]">
+                      {item.itemChildren.map((itemChi, indexChi) => (
+                        <Fragment key={indexChi}>
+                          <li className="hover:bg-[#E1ECFA] cursor-pointer py-[6px] pl-[10px] rounded-tr-[3px] rounded-tl-[3px]">
+                            <span className="">{itemChi}</span>
+                          </li>
+                        </Fragment>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              </ul>
+            </Fragment>
+          ))}
       </div>
     </Fragment>
   );

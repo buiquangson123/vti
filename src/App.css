@@ -49,10 +49,6 @@
   margin-right: 5px;
 }
 
-/* li span {
-  margin-left: 5px;
-} */
-
 .body-page {
   width: calc(100%-240px);
 }
@@ -82,17 +78,23 @@
 }
 
 #table-list tr:nth-child(even) {
-  background-color: white;
+  background-color: #f2f3f5;
 }
 
-/* #table-list tr:hover {
-  background-color: rgb(190, 155, 155);
-} */
+#table-list tbody tr:hover {
+  background-color: #e1ecfa;
+  cursor: pointer;
+}
 
 #table-list thead tr,
 tbody tr td {
   border-bottom: 1px solid #ddd;
   padding: 8px;
+}
+
+#table-list {
+  table-layout: fixed;
+  width: 100%;
 }
 
 thead tr th {
@@ -116,4 +118,9 @@ thead tr th {
 
 .list-item-min {
   padding: 0;
+}
+
+#table-list .no-data:hover {
+  cursor: default;
+  background-color: #f2f3f5;
 }
